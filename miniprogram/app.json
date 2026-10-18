@@ -1,0 +1,35 @@
+{
+  "pages": [
+    "pages/login/index",
+    "pages/tasks/index",
+    "pages/task/index",
+    "pages/learn/index",
+    "pages/records/index"
+  ],
+  "window": {
+    "navigationBarTitleText": "永森油服·企业培训",
+    "navigationBarBackgroundColor": "#102b4e",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f5f7fb",
+    "backgroundTextStyle": "dark"
+  },
+  "tabBar": {
+    "color": "#64748b",
+    "selectedColor": "#2563eb",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/tasks/index",
+        "text": "学习任务"
+      },
+      {
+        "pagePath": "pages/records/index",
+        "text": "培训记录"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

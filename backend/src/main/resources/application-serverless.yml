@@ -1,0 +1,36 @@
+# Independent production profile. Never combine with local or test.
+spring:
+  datasource:
+    # Close physical connections after each request/transaction. A frozen SCF
+    # instance cannot run an idle-pool eviction thread to let MySQL auto-pause.
+    type: org.springframework.jdbc.datasource.DriverManagerDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${TRAINING_MYSQL_URL}
+    username: ${TRAINING_MYSQL_USER}
+    password: ${TRAINING_MYSQL_PASSWORD}
+  sql:
+    init:
+      mode: never
+  servlet:
+    multipart:
+      # Materials use signed COS PUT, never proxy file bytes through SCF.
+      max-file-size: 1MB
+      max-request-size: 1MB
+server:
+  address: 0.0.0.0
+  port: 9000
+training:
+  data-dir: /tmp/yongsen-training
+  wechat-mode: real
+  appid: ${WECHAT_APPID}
+  app-secret: ${WECHAT_APP_SECRET}
+  admin-password: ${TRAINING_ADMIN_PASSWORD}
+  public-base: ${TRAINING_PUBLIC_BASE}
+  max-upload-bytes: 524288000
+  storage:
+    mode: cos
+  cos:
+    bucket: ${TRAINING_COS_BUCKET}
+    region: ${TRAINING_COS_REGION}
+  background:
+    mode: scf

@@ -1,0 +1,14 @@
+<view class="screen">
+  <view class="home-heading"><view class="eyebrow">YONGSEN TRAINING</view><view class="title">你好，{{person.name || '学员'}}</view><view class="subtitle">{{person.unit || '永森油服'}}<text wx:if="{{person.project}}"> · {{person.project}}</text></view></view>
+  <view class="hero training-overview"><view class="row"><view class="overview-title">立足岗位，持续提升</view><view class="overview-icon"><view class="line-icon icon-book"></view></view></view><view class="subtitle">安全生产 · 岗位技能 · 员工成长</view><view class="learning-stats"><view class="stat"><view class="stat-value">{{activeItems.length}}<text>项</text></view><view class="stat-label">待完成任务</view></view><view class="stat" bindtap="openRecords"><view class="stat-value">{{completedCount}}<text>项</text></view><view class="stat-label">已完成培训 <text>→</text></view></view></view></view>
+  <view wx:if="{{mock}}" class="notice">本地模拟环境 · 微信身份和通知送达不代表真实微信结果</view>
+  <view class="row section-heading"><view class="section-title">我的学习任务</view><text class="muted">下拉刷新</text></view>
+  <view wx:if="{{loading}}" class="spinner">正在加载任务…</view>
+  <view wx:if="{{error}}" class="notice error" bindtap="load">{{error}} · 点击重试</view>
+  <view wx:if="{{!loading && !activeItems.length && !error}}" class="card empty"><view class="icon-tile"><view class="line-icon icon-book"></view></view><view class="empty-title">当前没有待完成任务</view><text class="small">新的培训安排将在这里显示</text></view>
+  <view wx:for="{{activeItems}}" wx:key="id" class="card task-card" data-id="{{item.id}}" bindtap="openTask">
+    <view class="row"><text class="tag {{item.status === 'READY_TO_CONFIRM' ? 'warn' : ''}}">{{item.status === 'READY_TO_CONFIRM' ? '待完成最后一步' : item.stateLabel}}</text><text wx:if="{{item.overdue}}" class="tag warn">已逾期 · 仍可补学</text></view>
+    <view class="task-title">{{item.title}}</view><view class="muted">截止 {{item.dueLabel}}</view>
+    <view class="divider"></view><view class="row"><text class="small">{{item.taskStatus === 'CANCELED' || item.taskStatus === 'CANCELLED' ? '任务已取消' : '查看培训内容与要求'}}</text><text class="link">进入学习 →</text></view>
+  </view>
+</view>

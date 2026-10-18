@@ -1,0 +1,16 @@
+node_modules/
+web/dist/
+backend/target/
+backend/data/
+.local/
+.env
+.env.local
+.env.*
+!.env.example
+*.log
+playwright-report/
+test-results/
+miniprogram/project.private.config.json
+.DS_Store
+*.tsbuildinfo
+tests/fixtures/generated/

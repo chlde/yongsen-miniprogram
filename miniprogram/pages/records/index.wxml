@@ -1,0 +1,11 @@
+<view class="screen">
+  <view class="eyebrow">MY TRAINING</view><view class="title">我的培训记录</view><view class="subtitle">回顾已完成的学习，积累岗位成长</view>
+  <view class="card profile-card"><view class="row"><view class="profile-symbol"><view class="line-icon icon-book"></view></view><view class="grow"><view class="section-title">{{person.name || '学员'}}</view><view class="muted">{{person.personNo}} · {{person.unit}}</view></view><text class="tag">企业学员</text></view><view wx:if="{{person.project}}" class="profile-project">{{person.project}}</view></view>
+  <view wx:if="{{mock}}" class="notice">当前为本地模拟账号。以下是本地测试学习记录。</view>
+  <view class="row section-heading"><view class="section-title">已完成培训</view><text class="muted">{{items.length}} 项</text></view>
+  <view wx:if="{{loading}}" class="spinner">正在加载…</view><view wx:if="{{error}}" class="notice error" bindtap="load">{{error}} · 重试</view>
+  <view wx:if="{{!loading && !items.length}}" class="card empty"><view class="icon-tile"><view class="line-icon icon-document"></view></view><view class="empty-title">还没有完成的培训</view><view class="small">完成任务学习后，可在这里回顾</view></view>
+  <view wx:for="{{items}}" wx:key="id" class="card record-card" data-id="{{item.id}}" bindtap="openRecord"><view class="row"><text class="tag done">已完成培训</text><text class="arrow">→</text></view><view class="section-title" style="margin-top:20rpx">{{item.title}}</view><view class="muted">完成于 {{item.completedLabel}}</view><view class="link" style="margin-top:18rpx">查看学习详情</view></view>
+  <view class="footer-note">需要培训记录打印件，请联系管理员。学习完成不代表取得行业资质或实操考核合格。</view>
+  <button class="secondary" bindtap="logout">退出当前登录</button>
+</view>

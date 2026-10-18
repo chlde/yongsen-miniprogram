@@ -1,0 +1,20 @@
+<view class="learning-screen">
+  <view wx:if="{{loading}}" class="spinner">正在准备学习材料…</view>
+  <view wx:if="{{material}}" class="learning-heading"><text class="tag">{{isVideo ? '视频学习 · 1 倍速' : '文档逐页学习'}}</text><view class="section-title" style="margin:14rpx 0 0">{{material.title}}</view></view>
+  <video wx:if="{{material && isVideo}}" id="learning-video" class="learning-video" src="{{mediaUrl}}" initial-time="{{initialTime}}" controls="{{false}}" autoplay="{{false}}" show-center-play-btn="{{false}}" show-play-btn="{{false}}" show-fullscreen-btn="{{false}}" enable-progress-gesture="{{false}}" show-progress="{{false}}" object-fit="contain" bindloadedmetadata="onVideoReady" bindtimeupdate="onVideoTime" bindplay="onVideoPlay" bindpause="onVideoPause" bindwaiting="onVideoWaiting" bindprogress="onVideoProgress" bindended="onVideoEnded" binderror="onVideoError" />
+  <block wx:if="{{material && !isVideo}}">
+    <view class="pdf-toolbar"><button id="previous-page" class="page-button" data-direction="-1" disabled="{{pageNo <= 1}}" bindtap="changePage">上一页</button><text>第 {{pageNo}} / {{pageCount}} 页</text><button id="next-page" class="page-button" data-direction="1" disabled="{{pageNo >= pageCount}}" bindtap="changePage">下一页</button></view>
+    <scroll-view id="pdf-viewport" class="pdf-viewport" scroll-y="{{true}}" scroll-top="{{scrollTop}}" style="height:{{pdfViewportHeight}}px" bindscroll="onPdfScroll"><image id="pdf-page-image" class="pdf-image" src="{{mediaUrl}}" mode="widthFix" bindload="onPdfLoad" binderror="onPdfError" /></scroll-view>
+  </block>
+  <view class="learning-controls" wx:if="{{material}}">
+    <view wx:if="{{error}}" class="notice error" bindtap="reloadMedia">{{error}} · 点击重新加载</view>
+    <view class="row"><text class="bold">{{completed ? '已达到本材料学习要求' : '学习覆盖 ' + coverage + '%'}}</text><text wx:if="{{isVideo}}" class="muted">{{currentSeconds}} / {{totalSeconds}} 秒</text><text wx:else class="muted">本页 {{pageSeconds}} / {{pageRequiredSeconds}} 秒</text></view>
+    <view class="progress-track"><view class="progress-fill" style="width:{{coverage}}%"></view></view>
+    <view class="sync-state {{needsResume ? 'sync-warn' : ''}}">{{syncText}}</view>
+    <button wx:if="{{!sessionStarted || needsResume}}" id="start-learning" class="primary" disabled="{{!mediaReady || busy}}" loading="{{busy}}" bindtap="startLearning">{{sessionStarted ? '联网继续学习' : '开始学习'}}</button>
+    <button wx:elif="{{isVideo}}" id="toggle-play" class="primary" bindtap="togglePlay">{{playing ? '暂停播放' : '继续播放'}}</button>
+    <view wx:if="{{isVideo && sessionStarted}}" class="actions"><button id="replay-missing" class="secondary" bindtap="replayMissing">继续补看未完成片段</button></view>
+    <button wx:if="{{completed}}" id="back-task" class="secondary" bindtap="backToTask">返回培训任务</button>
+    <view class="footer-note">{{isVideo ? '重复播放不重复增加覆盖。离开页面、缓冲或网络异常会暂停计时，缺失部分可继续补看。' : '请查看本页全部内容并满足停留要求。向下滚动查看长页；页面显示和停留不能证明实际理解。'}}完成状态以服务端确认为准。</view>
+  </view>
+</view>

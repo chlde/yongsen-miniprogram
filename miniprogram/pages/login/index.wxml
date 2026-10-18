@@ -1,0 +1,28 @@
+<view class="screen login-screen">
+  <view class="brand-row"><view class="brand-mark">YS</view><view><view class="brand-name">永森油服</view><view class="eyebrow">YONGSEN TRAINING</view></view></view>
+  <view class="login-intro"><view class="login-label">企业培训</view><view class="title">夯实安全基础<view>提升岗位能力</view></view><view class="subtitle">面向每一位员工的日常学习与岗位培训</view><view class="training-topics"><text>安全生产</text><text>岗位技能</text><text>持续提升</text></view></view>
+  <view wx:if="{{!loggedIn}}" class="card login-card">
+    <view class="section-title">登录培训平台</view>
+    <view class="muted">使用微信登录，凭个人邀请码加入企业。管理员核对后，即可查看分配给你的学习任务。</view>
+    <button id="login-button" class="primary" loading="{{busy}}" disabled="{{busy}}" bindtap="login">{{mockEnabled ? '使用本地模拟身份登录' : '微信登录'}}</button>
+    <view wx:if="{{canMock}}" class="dev-panel">
+      <view class="row"><text class="small">本地模拟身份（仅开发者工具）</text><switch id="mock-switch" color="#2563eb" checked="{{mockEnabled}}" bindchange="onMockSwitch" /></view>
+      <input wx:if="{{mockEnabled}}" id="mock-name" class="input" value="{{mockName}}" bindinput="onMockNameInput" placeholder="本地身份，如 alice" />
+      <view wx:if="{{mockEnabled}}" class="muted">模拟微信身份和通知只用于本机测试，不代表真实微信登录或送达。</view>
+    </view>
+  </view>
+  <view wx:elif="{{bindingStatus === 'PENDING'}}" class="card login-card">
+    <view class="tag warn">等待管理员核对</view><view class="section-title" style="margin-top:20rpx">企业身份申请已提交</view>
+    <view class="muted">管理员核对通过后，即可进入企业培训。你可以联系管理员了解处理进度。</view>
+    <button id="refresh-binding" class="primary" bindtap="refreshIdentity">刷新核对状态</button>
+    <button class="quiet" style="margin-top:20rpx" bindtap="logout">退出登录</button>
+  </view>
+  <view wx:else class="card login-card">
+    <view class="section-title">加入企业培训</view><view class="muted">请输入管理员提供的个人邀请码。邀请码仅可使用一次，请勿转发。</view>
+    <input id="invite-code" class="input" value="{{inviteCode}}" bindinput="onInviteInput" placeholder="输入个人邀请码" maxlength="128" />
+    <button id="bind-button" class="primary" loading="{{busy}}" disabled="{{busy || !inviteCode}}" bindtap="bindInvitation">提交人员核对</button>
+    <button class="quiet" style="margin-top:20rpx" bindtap="logout">退出登录</button>
+  </view>
+  <view wx:if="{{error}}" class="notice error">{{error}}</view>
+  <view class="login-footer">永森油服·企业培训</view>
+</view>

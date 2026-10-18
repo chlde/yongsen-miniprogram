@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: ${TRAINING_MYSQL_URL}
+    username: ${TRAINING_MYSQL_USER}
+    password: ${TRAINING_MYSQL_PASSWORD}
+  sql:
+    init:
+      mode: never
+server:
+  address: ${SERVER_ADDRESS:127.0.0.1}
+training:
+  wechat-mode: real
+  appid: ${WECHAT_APPID:}
+  admin-password: ${TRAINING_ADMIN_PASSWORD:}

@@ -1,0 +1,19 @@
+{
+  "name": "yongsen-training-miniprogram",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "test:native": "node scripts/native-e2e.js",
+    "build:production": "node scripts/build-production.js"
+  },
+  "devDependencies": {
+    "miniprogram-automator": "^0.12.1"
+  },
+  "overrides": {
+    "minimist": "^1.2.8",
+    "mkdirp": "^0.5.6",
+    "jpeg-js": "^0.4.4",
+    "phin": "^3.7.1"
+  }
+}
