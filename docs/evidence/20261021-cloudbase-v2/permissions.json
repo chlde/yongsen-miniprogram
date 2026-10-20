@@ -1,0 +1,15 @@
+{
+  "identityRole": "ADMIN",
+  "lists": {
+    "ok": true,
+    "count": 4
+  },
+  "writes": {
+    "denied": true,
+    "code": -502003
+  },
+  "jobs": {
+    "error": "cloud.callFunction:fail Error: errCode: -501023 permission denied | errMsg: Permission denied 更多错误信息请访问：https://docs.cloudbase.net/error-code/basic/PERMISSION_DENIED (callId: 1792512813752-0.09388528247573935) (trace: 0:13:33 start->0:13:34 system error (Error: errCode: -501023 permission denied | errMsg: Permission denied 更多错误信息请访问：https://docs.cloudbase.net/error-code/basic/PERMISSION_DENIED), abort)"
+  },
+  "adminError": ""
+}

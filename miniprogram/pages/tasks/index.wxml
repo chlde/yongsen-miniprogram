@@ -1,7 +1,7 @@
 <view class="screen">
+  <button wx:if="{{role === 'ADMIN'}}" id="admin-entry" class="secondary" bindtap="openAdmin">进入培训管理 →</button>
   <view class="home-heading"><view class="eyebrow">YONGSEN TRAINING</view><view class="title">你好，{{person.name || '学员'}}</view><view class="subtitle">{{person.unit || '永森油服'}}<text wx:if="{{person.project}}"> · {{person.project}}</text></view></view>
   <view class="hero training-overview"><view class="row"><view class="overview-title">立足岗位，持续提升</view><view class="overview-icon"><view class="line-icon icon-book"></view></view></view><view class="subtitle">安全生产 · 岗位技能 · 员工成长</view><view class="learning-stats"><view class="stat"><view class="stat-value">{{activeItems.length}}<text>项</text></view><view class="stat-label">待完成任务</view></view><view class="stat" bindtap="openRecords"><view class="stat-value">{{completedCount}}<text>项</text></view><view class="stat-label">已完成培训 <text>→</text></view></view></view></view>
-  <view wx:if="{{mock}}" class="notice">本地模拟环境 · 微信身份和通知送达不代表真实微信结果</view>
   <view class="row section-heading"><view class="section-title">我的学习任务</view><text class="muted">下拉刷新</text></view>
   <view wx:if="{{loading}}" class="spinner">正在加载任务…</view>
   <view wx:if="{{error}}" class="notice error" bindtap="load">{{error}} · 点击重试</view>

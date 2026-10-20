@@ -1,5 +1,11 @@
 <view class="learning-screen">
   <view wx:if="{{loading}}" class="spinner">正在准备学习材料…</view>
+  <view wx:if="{{!loading && !material && error}}" id="learning-load-error" class="learning-controls">
+    <view class="section-title">暂时无法打开学习材料</view>
+    <view class="notice error">{{error}}</view>
+    <button id="retry-learning-load" class="primary" bindtap="load">重新加载</button>
+    <button id="back-to-tasks" class="secondary" bindtap="backToTasks">返回任务列表</button>
+  </view>
   <view wx:if="{{material}}" class="learning-heading"><text class="tag">{{isVideo ? '视频学习 · 1 倍速' : '文档逐页学习'}}</text><view class="section-title" style="margin:14rpx 0 0">{{material.title}}</view></view>
   <video wx:if="{{material && isVideo}}" id="learning-video" class="learning-video" src="{{mediaUrl}}" initial-time="{{initialTime}}" controls="{{false}}" autoplay="{{false}}" show-center-play-btn="{{false}}" show-play-btn="{{false}}" show-fullscreen-btn="{{false}}" enable-progress-gesture="{{false}}" show-progress="{{false}}" object-fit="contain" bindloadedmetadata="onVideoReady" bindtimeupdate="onVideoTime" bindplay="onVideoPlay" bindpause="onVideoPause" bindwaiting="onVideoWaiting" bindprogress="onVideoProgress" bindended="onVideoEnded" binderror="onVideoError" />
   <block wx:if="{{material && !isVideo}}">

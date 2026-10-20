@@ -1,0 +1,8 @@
+{
+  "checkedAt": "2026-10-20T16:21:58.957Z",
+  "api": "wxa/getversioninfo",
+  "result": {
+    "errcode": 40014,
+    "errmsg": "invalid access_token rid: 6ad79527-74bb6a3e-120c7d71"
+  }
+}

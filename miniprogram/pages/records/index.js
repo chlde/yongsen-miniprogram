@@ -1,16 +1,16 @@
 const api = require('../../lib/api');
 const { enrichAssignment, toastError } = require('../../lib/view');
 Page({
-  data: { person: null, items: [], loading: true, error: '', mock: false },
+  data: { person: null, items: [], loading: true, error: '' },
   onShow() { this.load(); },
   async load() {
-    if (!getApp().globalData.token) return wx.reLaunch({ url: '/pages/login/index' });
+    if (!getApp().globalData.identity) return wx.reLaunch({ url: '/pages/login/index' });
     this.setData({ loading: true, error: '' });
     try {
       const me = await api.request('/me');
-      if (me.bindingStatus !== 'ACTIVE') return wx.reLaunch({ url: '/pages/login/index' });
-      const result = await api.request('/me/assignments');
-      this.setData({ person: me.person, items: (result.items || []).filter(item => item.status === 'COMPLETED').map(enrichAssignment), mock: me.providerMode === 'mock' });
+      if (me.bindingStatus !== 'ACTIVE' && me.role !== 'ADMIN') return wx.reLaunch({ url: '/pages/login/index' });
+      const result = me.bindingStatus === 'ACTIVE' ? await api.request('/me/assignments') : { items: [] };
+      this.setData({ person: me.person, items: (result.items || []).filter(item => item.status === 'COMPLETED').map(enrichAssignment) });
     } catch (error) { this.setData({ error: error.message }); }
     finally { this.setData({ loading: false }); }
   },

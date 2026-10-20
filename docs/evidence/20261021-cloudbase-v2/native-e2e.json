@@ -1,0 +1,13 @@
+{
+  "startedAt": "2026-10-20T16:07:49.612Z",
+  "environment": "yongsen-prod-d4ghriorcc1483d38",
+  "mode": "real-wechat-native-components; one real account sequential ADMIN/USER",
+  "checks": [
+    "Real USER cannot execute admin command or query other assignments",
+    "Native 12-second H264 playback; server verified complete coverage",
+    "Native rendered PDF; 30-second page visibility and complete page coverage",
+    "Learner checkbox confirmation creates immutable completion and personal record"
+  ],
+  "finishedAt": "2026-10-20T16:09:19.283Z",
+  "status": "PASSED"
+}

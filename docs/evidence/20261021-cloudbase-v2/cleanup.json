@@ -1,0 +1,29 @@
+{
+  "checkedAt": "2026-10-20T16:14:16.279Z",
+  "removed": {
+    "batches": 34,
+    "session_locks": 1,
+    "sessions": 5,
+    "completions": 2,
+    "notifications": 4,
+    "jobs": 7,
+    "assignments": 4,
+    "tasks": 4,
+    "invites": 1,
+    "bindings": 1,
+    "subscriptions": 11,
+    "audit": 11,
+    "materials": 3,
+    "people": 1
+  },
+  "storageFilesRemoved": 3,
+  "remaining": {
+    "tasks": 0,
+    "people": 0,
+    "materials": 0,
+    "assignments": 0,
+    "completions": 0
+  },
+  "retainedAdmin": true,
+  "testEmployeeUnbound": true
+}

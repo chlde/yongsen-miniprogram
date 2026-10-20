@@ -1,0 +1,98 @@
+<view class="screen">
+  <view class="eyebrow">YONGSEN · 管理工作台</view>
+  <view class="title">培训管理</view>
+  <scroll-view scroll-x class="tabs"><view class="tabs-row">
+    <view wx:for="{{['tasks','people','materials','roles','settings']}}" wx:key="*this" class="tab {{section === item ? 'active' : ''}}" data-section="{{item}}" bindtap="changeSection">{{item === 'tasks' ? '培训任务' : item === 'people' ? '员工管理' : item === 'materials' ? '培训教材' : item === 'roles' ? '账号权限' : '通知设置'}}</view>
+  </view></scroll-view>
+  <view wx:if="{{error}}" class="notice error">{{error}}</view>
+  <view class="row"><text class="muted">{{syncLabel || '云端数据实时同步'}}</text><button class="quiet" bindtap="load">刷新</button></view>
+
+  <block wx:if="{{section === 'tasks'}}">
+    <button wx:if="{{!creating}}" id="new-task" class="primary" bindtap="newTask">创建培训任务</button>
+    <view wx:if="{{creating}}" class="card">
+      <view class="section-title">培训安排</view>
+      <input id="task-title" class="input" placeholder="任务名称" data-field="title" bindinput="input" />
+      <textarea class="textarea" placeholder="培训说明" data-field="description" bindinput="input" />
+      <picker mode="date" bindchange="dateChange"><view class="input picker">截止日期：{{form.dueDate || '未设置'}}</view></picker>
+      <view class="section-title">选择教材</view>
+      <checkbox-group bindchange="selectMaterials"><label wx:for="{{materials}}" wx:key="id" class="choice"><checkbox value="{{item.id}}" />{{item.title}} · {{item.type}}</label></checkbox-group>
+      <view wx:if="{{!materials.length}}" class="muted">请先上传并处理教材</view>
+      <view class="section-title">选择员工</view>
+      <checkbox-group bindchange="selectPeople"><label wx:for="{{people}}" wx:key="id" class="choice"><checkbox value="{{item.id}}" />{{item.name}} · {{item.personNo}}</label></checkbox-group>
+      <view wx:if="{{!people.length}}" class="muted">请先完成员工微信身份绑定</view>
+      <button id="save-task" class="primary" loading="{{busy}}" disabled="{{busy}}" bindtap="createTask">保存任务草稿</button>
+      <button class="quiet" bindtap="cancelCreate">取消</button>
+    </view>
+    <block wx:else>
+      <view wx:for="{{tasks}}" wx:key="id" class="card task-card" data-id="{{item.id}}" bindtap="openTask">
+        <view class="row"><text class="tag">{{item.stateLabel}}</text><text class="muted">{{item.assignedCount}} / {{item.personIds.length}} 人</text></view>
+        <view class="section-title">{{item.title}}</view><view class="muted">{{item.dateLabel}}</view>
+      </view>
+      <view wx:if="{{!tasks.length}}" class="card empty">尚未创建培训任务</view>
+      <view wx:for="{{jobs}}" wx:key="id" wx:if="{{item.state === 'FAILED'}}" class="notice error">
+        <view>{{item.error}}</view><button size="mini" data-id="{{item.id}}" bindtap="retryJob">处理原因后重试</button>
+      </view>
+      <button class="secondary" loading="{{busy}}" disabled="{{busy}}" bindtap="runJobs">立即处理发布与通知</button>
+    </block>
+  </block>
+
+  <block wx:if="{{section === 'people'}}">
+    <button class="primary" bindtap="newPerson">添加员工</button>
+    <view wx:if="{{creating}}" class="card">
+      <input id="person-no" class="input" placeholder="工号" data-field="personNo" bindinput="input" />
+      <input id="person-name" class="input" placeholder="姓名" data-field="name" bindinput="input" />
+      <input class="input" placeholder="所属单位" data-field="unit" bindinput="input" />
+      <input class="input" placeholder="所属项目" data-field="project" bindinput="input" />
+      <button class="primary" loading="{{busy}}" disabled="{{busy}}" bindtap="savePerson">保存员工</button>
+    </view>
+    <view wx:if="{{invite}}" class="notice"><view selectable>个人邀请码：{{invite}}</view><button size="mini" bindtap="copyInvite">复制邀请码</button></view>
+    <view wx:for="{{bindings}}" wx:key="id" wx:if="{{item.status === 'PENDING'}}" class="card">
+      <view class="section-title">{{item.personName}} · 待核对</view>
+      <view class="muted">请核对本人身份后通过申请</view>
+      <view class="actions"><button class="primary" data-id="{{item.id}}" data-decision="APPROVE" bindtap="decide">核对通过</button><button data-id="{{item.id}}" data-decision="REJECT" bindtap="decide">拒绝</button></view>
+    </view>
+    <view wx:for="{{people}}" wx:key="id" class="card">
+      <view class="row"><view class="section-title">{{item.name}}</view><text class="tag">{{item.openid ? '已绑定微信' : '待绑定'}}</text></view>
+      <view class="muted">{{item.personNo}} · {{item.unit}} {{item.project}}</view>
+      <button wx:if="{{!item.openid}}" class="secondary" data-id="{{item.id}}" bindtap="invite">生成个人邀请码</button>
+    </view>
+  </block>
+
+  <block wx:if="{{section === 'materials'}}">
+    <button id="upload-material" class="primary" loading="{{busy}}" disabled="{{busy}}" bindtap="uploadMaterial">上传 PDF 或 MP4 教材</button>
+    <view class="footer-note">从微信文件选择教材；支持 H.264 视频、最多 80 页 PDF，单文件不超过 100 MB。处理完成后可分配给员工学习。</view>
+    <view wx:for="{{materials}}" wx:key="id" class="card">
+      <view class="row"><text class="tag">{{item.type}}</text><text class="tag">{{item.stateLabel}}</text></view>
+      <view class="section-title">{{item.title}}</view>
+      <view class="muted">{{item.pageCount ? item.pageCount + ' 页' : ''}}</view>
+      <view wx:if="{{item.error}}" class="notice error">{{item.error}}</view>
+    </view>
+  </block>
+
+  <block wx:if="{{section === 'roles'}}">
+    <view class="notice">微信平台的管理员和所有项目成员均具有管理权限；体验成员和其他用户为普通用户。成员名单变更后，请在此核对更新。</view>
+    <view class="card">
+      <view class="section-title">核验平台成员</view>
+      <input class="input" placeholder="成员本人提供的身份核验码" value="{{form.code}}" data-field="code" bindinput="input" />
+      <input class="input" placeholder="微信平台中的成员名称" value="{{form.platformName}}" data-field="platformName" bindinput="input" />
+      <checkbox-group bindchange="roleSourceChange"><label class="choice"><checkbox value="PLATFORM_ADMIN" />平台管理员</label><label class="choice"><checkbox value="PROJECT_MEMBER" />项目成员</label></checkbox-group>
+      <input class="input" placeholder="核验说明，例如核对日期与名单" value="{{form.evidence}}" data-field="evidence" bindinput="input" />
+      <button class="primary" loading="{{busy}}" disabled="{{busy}}" bindtap="setRole">保存核验结果</button>
+    </view>
+    <view wx:for="{{roles}}" wx:key="accountId" class="card">
+      <view class="section-title">{{item.platformName || '未核验账号'}} · {{item.roleLabel}}</view>
+      <view class="muted">{{item.sourceLabel}}</view>
+      <button wx:for="{{item.sources}}" wx:for-item="source" wx:key="*this" size="mini" data-id="{{item.accountId}}" data-source="{{source}}" bindtap="revokeRole">移除{{source === 'PLATFORM_ADMIN' ? '管理员' : '项目成员'}}身份</button>
+    </view>
+    <button class="secondary" bindtap="myCode">生成我的身份核验码</button><view wx:if="{{roleCode}}" class="notice" selectable>{{roleCode}}</view>
+  </block>
+
+  <view wx:if="{{section === 'settings'}}" class="card">
+    <view class="section-title">微信订阅通知</view>
+    <view class="muted">填写当前小程序已选用的订阅消息模板。员工须主动授权；微信受理结果会显示在任务详情中。</view>
+    <input class="input" placeholder="模板 ID" data-field="templateId" bindinput="input" />
+    <view class="muted">字段对应：title 为任务名称，dueAt 为截止时间，company 为企业名称</view>
+    <textarea class="textarea" value="{{templateFields}}" bindinput="fieldsInput" />
+    <button class="primary" loading="{{busy}}" disabled="{{busy}}" bindtap="saveSettings">保存通知设置</button>
+  </view>
+</view>

@@ -1,0 +1,24 @@
+---
+title: 永森油服学习小程序 · CloudBase 容器架构 · 2026-10-20
+---
+%% SVG 页脚图例：蓝色为业务应用，绿色为存储，白色为外部平台；实线箭头表示请求方向。
+flowchart LR
+    Mini["微信小程序 · 客户端<br/>管理员：发布、监控<br/>普通用户：学习、确认"]
+    subgraph Cloud["腾讯云 CloudBase<br/>托管执行与存储"]
+        Functions["云函数 · 职责聚合<br/>身份、任务、学习核验<br/>定时作业与通知<br/>教材校验与转换"]
+        Data[("云数据库<br/>角色、任务、进度、记录<br/>安全规则限制访问")]
+        Files[("私有云存储<br/>视频、PDF、页图<br/>固定教材版本")]
+    end
+    WeChat["微信平台 · 外部系统<br/>向订阅用户发送任务提醒"]
+    Mini -->|"SDK 查询与建立监听"| Data
+    Mini -->|"callFunction 提交操作"| Functions
+    Mini -->|"授权后直接上传与读取"| Files
+    Functions -->|"事务读写"| Data
+    Functions -->|"授权与文件处理"| Files
+    Functions -->|"云调用发送订阅消息"| WeChat
+    classDef app fill:#e8f0ff,stroke:#3b6ed5,color:#183153
+    classDef data fill:#e8f6ef,stroke:#398466,color:#173b2b
+    classDef external fill:#ffffff,stroke:#8593a5,color:#28354a
+    class Mini,Functions app
+    class Data,Files data
+    class WeChat external

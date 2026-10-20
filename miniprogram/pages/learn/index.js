@@ -33,12 +33,24 @@ Page({
     }
   },
   async load() {
+    if (this._loading || this._unloaded) return;
+    this._loading = true;
+    this.setData({ loading: true, error: '' });
     try {
+      if (!this.assignmentId || !this.taskMaterialId) throw new Error('学习入口不完整，请返回任务列表重新进入');
+      const app = getApp();
+      if (!app.globalData.identity) {
+        app.globalData.pendingTaskRoute = `/pages/task/index?assignmentId=${encodeURIComponent(this.assignmentId)}`;
+        wx.reLaunch({ url: '/pages/login/index' });
+        return;
+      }
       const task = await api.request(`/me/assignments/${this.assignmentId}`);
-      this.material = (task.materials || []).find(item => String(item.taskMaterialId || item.id) === String(this.taskMaterialId));
-      if (!this.material) throw new Error('未找到本任务的学习材料');
+      if (this._unloaded) return;
       if (['CANCELED', 'CANCELLED', 'CLOSED'].includes(task.taskStatus)) throw new Error('任务已停止，不能继续学习');
-      const m = enrichMaterial(this.material);
+      const material = (task.materials || []).find(item => String(item.taskMaterialId || item.id) === String(this.taskMaterialId));
+      if (!material) throw new Error('未找到本任务的学习材料');
+      this.material = material;
+      const m = enrichMaterial(material);
       const p = m.progress || {};
       const missing = p.missingRangesMs || [];
       this.resumePositionMs = Math.max(0, (missing.length ? missing[0][0] : 0) - 2000);
@@ -47,8 +59,12 @@ Page({
       this.setData({ material: m, isVideo: m.type === 'MP4', pageCount: m.pageCount || 0, totalSeconds: Math.ceil((m.durationMs || 0) / 1000), initialTime: this.resumePositionMs / 1000, pageRequiredSeconds: (m.rule && m.rule.minPageVisibleMs || 30000) / 1000, pdfViewportHeight: Math.max(220, windowInfo.windowHeight - 340) });
       this.updateProgress(p);
       await this.loadMedia(1);
-    } catch (error) { this.setData({ error: error.message }); }
-    finally { this.setData({ loading: false }); }
+    } catch (error) {
+      if (!this._unloaded) this.setData({ error: error.message || '学习材料加载失败，请重试' });
+    } finally {
+      this._loading = false;
+      if (!this._unloaded) this.setData({ loading: false });
+    }
   },
   async loadMedia(pageNo) {
     this._geometryVersion++; this._rendered = false; this._range = null;
@@ -56,6 +72,7 @@ Page({
     const data = { taskMaterialId: this.taskMaterialId };
     if (this.material.type === 'PDF') data.pageNo = pageNo;
     const ticket = await api.post(`/me/assignments/${this.assignmentId}/media-ticket`, data);
+    if (this._unloaded) return;
     this.setData({ mediaUrl: api.absoluteUrl(ticket.url) }, () => {
       if (this.material.type === 'MP4') { this.video = wx.createVideoContext('learning-video', this); this.video.playbackRate(1); }
     });
@@ -126,7 +143,11 @@ Page({
   },
   onVideoReady() { this.setData({ mediaReady: true }); this.refreshGeometry(); },
   onVideoTime(e) {
-    const next = Math.round(Number(e.detail.currentTime || 0) * 1000);
+    let next = Math.round(Number(e.detail.currentTime || 0) * 1000);
+    const durationMs = Number(this.material && this.material.durationMs);
+    // Native decoders can report a final frame just beyond the probed duration.
+    // Normalize only a small overrun; larger jumps remain subject to server validation.
+    if (durationMs > 0 && next > durationMs && next - durationMs <= 300) next = durationMs;
     const previous = this._positionMs;
     const now = this._clock();
     if (this._lastPositionClock && this.tracker && Math.abs(next - previous) > Math.max(5000, (now - this._lastPositionClock) * 1.5 + 1000)) this.emit('SEEK', this.videoPayload({ fromMs: previous, toMs: next, positionMs: next }));
@@ -184,7 +205,13 @@ Page({
     const selector = this.data.isVideo ? '#learning-video' : '#pdf-viewport';
     const rects = await this.queryRects([selector]);
     if (rects[0]) await new Promise(resolve => wx.pageScrollTo({ scrollTop: Math.max(0, this._scrollTop + rects[0].top - 16), duration: 0, complete: resolve }));
-    await this.refreshGeometry();
+    // The scroll callback can run before native layout/scroll events settle.
+    // Re-measure after the render tick; never treat an old viewport as visible.
+    for (let attempt = 0; attempt < 3; attempt++) {
+      await new Promise(resolve => wx.nextTick(resolve));
+      await this.refreshGeometry();
+      if (this.data.isVideo ? this._playerVisible : this._range) break;
+    }
   },
   async refreshGeometry() {
     if (!this.material || this._unloaded) return;
@@ -223,5 +250,6 @@ Page({
     this.setData({ coverage: Math.floor((progress.coverageRatio || 0) * 100), effectiveSeconds: Math.floor((progress.effectiveMs || 0) / 1000), completed: Boolean(progress.requirementsMet), pageSeconds: Math.floor((page.effectiveMs || page.visibleMs || 0) / 1000), pageCoverage: Math.floor((page.coverageRatio || 0) * 100) });
   },
   async reloadMedia() { try { await this.loadMedia(this._pageNo); } catch (error) { toastError(error); } },
+  backToTasks() { wx.switchTab({ url: '/pages/tasks/index' }); },
   async backToTask() { if (this.data.busy) return; this.setData({ busy: true }); await this.closeSession('RETURN_TO_TASK'); wx.navigateBack({ delta: 1 }); }
 });

@@ -1,7 +1,6 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const { SessionTracker, visiblePdfRange, visibleFraction } = require('../lib/session-tracker');
-const { localMockAllowed } = require('../lib/environment');
 function rig(transport) {
   let now = 0, id = 0, stalled = 0;
   const reports = [], requests = [];
@@ -88,10 +87,6 @@ test('finish stops samples and drains CLOSE after an already in-flight batch', a
   const seq = r.tracker.nextSeq; r.at(2000); r.tracker.tick(); assert.equal(r.tracker.nextSeq, seq);
   resolvePending(); await inFlight; await closing;
   assert.equal(sends, 2); assert.equal(r.tracker.queue.length, 0); assert.equal(r.tracker.disposed, true);
-});
-test('mock identity is impossible in release, on real phones, or against remote domains', () => {
-  assert.equal(localMockAllowed('http://127.0.0.1:8080/api/v1', 'devtools', 'develop'), true);
-  for (const [url, platform, version] of [ ['http://127.0.0.1:8080/api/v1', 'ios', 'develop'], ['http://127.0.0.1:8080/api/v1', 'devtools', 'release'], ['https://production.example/api/v1', 'devtools', 'develop'] ]) assert.equal(localMockAllowed(url, platform, version), false);
 });
 test('native WXML conditions use data binding instead of always-truthy literal strings', () => {
   const fs = require('node:fs'), path = require('node:path');

@@ -6,6 +6,7 @@
     "pages/learn/index",
     "pages/records/index"
   ],
+  "subPackages": [{"root":"admin","pages":["home/index","task/index"]}],
   "window": {
     "navigationBarTitleText": "永森油服·企业培训",
     "navigationBarBackgroundColor": "#102b4e",

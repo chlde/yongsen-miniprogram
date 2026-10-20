@@ -1,16 +1,16 @@
 const api = require('../../lib/api');
 const { enrichAssignment, enrichMaterial, toastError } = require('../../lib/view');
 Page({
-  data: { loading: true, task: null, error: '', accepted: false, confirming: false, subscriptionReady: false, subscribing: false, mock: false },
+  data: { loading: true, task: null, error: '', accepted: false, confirming: false, subscriptionReady: false, subscribing: false },
   onLoad(query) { this.assignmentId = query.id || query.assignmentId; this.notificationId = query.notificationId || query.notice; },
   onShow() { this.load(); },
   async load() {
-    if (!getApp().globalData.token) return this.requestLogin();
+    if (!getApp().globalData.identity) return this.requestLogin();
     this.setData({ loading: true, error: '', accepted: false });
     try {
       const task = await api.request(`/me/assignments/${this.assignmentId}`);
       task.materials = (task.materials || []).map(enrichMaterial);
-      this.setData({ task: enrichAssignment(task), mock: getApp().globalData.providerMode === 'mock' });
+      this.setData({ task: enrichAssignment(task) });
       if (!this.entered) { await api.post(`/me/assignments/${this.assignmentId}/entered`, this.notificationId ? { notificationId: this.notificationId } : {}); this.entered = true; }
       this.prepareSubscription();
     } catch (error) { if (!error.authExpired) this.setData({ error: error.message }); }
@@ -25,8 +25,6 @@ Page({
     this.setData({ subscriptionReady: false });
     try {
       const settings = await api.request('/me/notification-settings');
-      this.providerMode = settings.providerMode;
-      this.setData({ mock: settings.providerMode === 'mock' });
       if (settings.configured === false || !settings.templateId) { this.subscriptionError = '管理员尚未配置微信通知模板'; return; }
       this.subscription = await api.post('/me/subscriptions');
       this.setData({ subscriptionReady: true });
@@ -40,14 +38,10 @@ Page({
     const report = async result => {
       try {
         await api.post(`/me/subscriptions/${request.id || request.requestId}/result`, { nonce: request.nonce, result });
-        wx.showToast({ title: result === 'accept' ? (this.providerMode === 'mock' ? '已记录本地模拟订阅' : '已记录本次订阅') : '未订阅，仍可继续学习', icon: 'none' });
+        wx.showToast({ title: result === 'accept' ? '已记录本次订阅' : '未订阅，仍可继续学习', icon: 'none' });
       } catch (error) { toastError(error); }
       finally { this.setData({ subscribing: false }); this.prepareSubscription(); }
     };
-    if (this.providerMode === 'mock') {
-      if (!getApp().globalData.localMock || !getApp().canUseLocalMock()) { this.setData({ subscribing: false }); return wx.showToast({ title: '模拟通知仅限显式本机测试', icon: 'none' }); }
-      report('accept'); return;
-    }
     // This call is directly triggered by the user's tap. The nonce is prepared before the tap.
     wx.requestSubscribeMessage({ tmplIds: [request.templateId],
       success: result => report(result[request.templateId] || 'reject'),

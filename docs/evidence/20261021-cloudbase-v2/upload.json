@@ -1,0 +1,19 @@
+{
+  "size": {
+    "total": 89993,
+    "packages": [
+      {
+        "name": "TOTAL",
+        "size": 89993
+      },
+      {
+        "name": "main",
+        "size": 67188
+      },
+      {
+        "name": "/admin/",
+        "size": 22805
+      }
+    ]
+  }
+}

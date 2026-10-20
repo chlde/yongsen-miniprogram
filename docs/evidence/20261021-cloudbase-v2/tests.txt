@@ -1,0 +1,62 @@
+
+> yongsen-training@2.0.0 test
+> npm test --prefix cloud && npm test --prefix miniprogram
+
+
+> yongsen-cloud@2.0.0 test
+> node --test tests/*.test.cjs
+
+✔ verified platform roles are unioned, default accounts cannot elevate or access other assignments (13.225583ms)
+✔ task publishing is idempotent and stopped tasks cannot be learned (1.823458ms)
+✔ real-time video journey deduplicates batches, requires full progress and explicit confirmation (4.348458ms)
+✔ seek, invisible playback, accelerated events, concurrent sessions and late retries cannot add credit (1.728541ms)
+✔ failed fanout never activates an incomplete task (1.161791ms)
+✔ notification timeout is UNKNOWN and cannot be silently resent (1.315167ms)
+✔ unsubscribed recipients do not starve later subscribed recipients (1.928125ms)
+✔ PDF time must cover every page; hidden reading and page switches add no credit (0.325375ms)
+✔ late publication exposure cannot reset progress already confirmed by a learning session (1.025167ms)
+✔ out-of-order samples persist but a missing sequence never grants offline learning time (1.111083ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 110.416792
+
+> yongsen-training-miniprogram@2.0.0 test
+> node --test tests/*.test.js
+
+✔ native cloud requests pass no business bearer token and preserve command IDs (1.943458ms)
+✔ permission errors propagate and never fall back to HTTP (0.58175ms)
+✔ media must use HTTPS and unknown actions are rejected locally (0.559917ms)
+✔ native final frame overrun stays inside the server media duration (3.081375ms)
+✔ ordinary positions and large overruns are not rewritten as completed playback (1.757125ms)
+✔ failed startup exposes a recoverable error and retry loads the material (3.287791ms)
+✔ missing material and stopped tasks finish loading with a visible error state (1.491167ms)
+✔ incomplete learning links make no API request and allow return to the task list (1.977667ms)
+✔ unauthenticated learning entry preserves its task and returns to login (0.556167ms)
+✔ a late startup response does not update an unloaded page or request media (0.695917ms)
+✔ release contains native admin pages and no backend endpoint or credentials (16.100542ms)
+✔ release parser accepts only public deployment identifiers (0.291792ms)
+✔ first sample is immediately acknowledged; display only server-confirmed progress (1.098292ms)
+✔ an invalid baseline never starts the sampling timer or permits playback (0.259167ms)
+✔ 10 seconds without ACK stops sampling once and does not continue accumulating (0.274167ms)
+✔ retry keeps exact batch identity and immutable event payload (0.777458ms)
+✔ concurrent state changes preserve unsent events while single-flight request runs (0.139167ms)
+✔ hidden page emits no periodic samples and replaced session stops (0.099084ms)
+✔ clock rollback stops instead of inventing elapsed time (0.073167ms)
+✔ PDF viewport converts to original pixels and excludes offscreen areas (0.08875ms)
+✔ PDF clips the reader against the physical screen and rejects an entirely offscreen reader (0.065458ms)
+✔ video visibility includes horizontal and vertical screen clipping (0.12175ms)
+✔ finish stops samples and drains CLOSE after an already in-flight batch (1.274958ms)
+✔ native WXML conditions use data binding instead of always-truthy literal strings (2.022ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 24
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 107.4575

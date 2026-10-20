@@ -1,0 +1,8 @@
+{
+  "checkedAt": "2026-10-20T16:01:12.985Z",
+  "state": "REJECTED",
+  "errorCode": "43101",
+  "error": "errCode: 43101  | errMsg: openapi.subscribeMessage.send:fail user refuse to accept the msg rid: 6ad79048-111f0b1b-4a9c2119",
+  "releaseState": "developer",
+  "phoneDelivery": "NOT_VERIFIED"
+}

@@ -1,0 +1,9 @@
+{
+  "checkedAt": "2026-10-20T16:10:08.749Z",
+  "checks": [
+    "Administrator page displays the learner-confirmed completion and material progress",
+    "Real admin form entry, material/employee checkbox selection, save draft, and publish button"
+  ],
+  "taskId": "57516c599fae5f120b09fd739cf44dbb",
+  "status": "PASSED"
+}

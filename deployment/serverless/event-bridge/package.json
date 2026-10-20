@@ -1,7 +1,0 @@
-{
-  "name": "yongsen-training-event-bridge",
-  "version": "1.0.0",
-  "private": true,
-  "type": "commonjs",
-  "engines": { "node": ">=20.19" }
-}

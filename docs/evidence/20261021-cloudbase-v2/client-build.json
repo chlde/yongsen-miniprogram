@@ -1,0 +1,157 @@
+{
+  "version": "2.0.0",
+  "packageBytes": 89993,
+  "urlCheck": true,
+  "files": [
+    {
+      "path": "admin/home/index.js",
+      "sha256": "7aea8842696e9c17929424ad7bcdb3e70e9fde236f8e96641516435c2f607165"
+    },
+    {
+      "path": "admin/home/index.json",
+      "sha256": "0ee7b8ab59510aa5712bdbe2535960771d9abf0bb7b2eef1147a0f89ff3ead4c"
+    },
+    {
+      "path": "admin/home/index.wxml",
+      "sha256": "0ba1dbfb2e97f12e314b1ddd556f1638f642562eba3adf10331fa8d60f66d050"
+    },
+    {
+      "path": "admin/home/index.wxss",
+      "sha256": "1178cedd1e03fc6b41dbed323e14be237825a547801001e9b3a5a33561dcdf2c"
+    },
+    {
+      "path": "admin/task/index.js",
+      "sha256": "41087b10193e75052839e3531c59b362a96c5ee62ae946cb0e78072139ed8c49"
+    },
+    {
+      "path": "admin/task/index.json",
+      "sha256": "cba56f8b4bdcd5d52435716df577f41602c0aa6a0c302710fb5882a75a2fe6cb"
+    },
+    {
+      "path": "admin/task/index.wxml",
+      "sha256": "e5143f8c5332b4f58922ff464ebd5e79975d722c8a2cd78003aee5c2fff7bae9"
+    },
+    {
+      "path": "admin/task/index.wxss",
+      "sha256": "db3710a87861c3e89fa4cc3b4c8f16252a7fb8627d70c6c33d1410a060aa2dd4"
+    },
+    {
+      "path": "app.js",
+      "sha256": "41bf9a23393aba4c81fa052b321333887034d10b93f2e6f0c39ba4ea3a3122f9"
+    },
+    {
+      "path": "app.json",
+      "sha256": "c34c286831129a6839068558a815192be8b9afbeddeebfb4b7dd0e25965f4956"
+    },
+    {
+      "path": "app.wxss",
+      "sha256": "1b07e222948fbc057535fcaa4594d58759b548104fce1bf7273119f2aa16b593"
+    },
+    {
+      "path": "lib/api.js",
+      "sha256": "a9fc046c7be16aae14aa6bfac4ebfbef18762a7219b56ce04c5bdd0784a322ef"
+    },
+    {
+      "path": "lib/config.js",
+      "sha256": "cf544b65a745b34d7984cf2013d244ff77b557b2264c32f9b125f935d1dcceba"
+    },
+    {
+      "path": "lib/session-tracker.js",
+      "sha256": "4f58cd0ca2754b03937560e32d627ec5bf43f2223dd6006568f886a6cd23f5b2"
+    },
+    {
+      "path": "lib/view.js",
+      "sha256": "4fb9e7afc4b6f9466b011412171e1c8d5a522fd0bc5618c9f84ece78ece9990f"
+    },
+    {
+      "path": "pages/learn/index.js",
+      "sha256": "aff5b371e36e8703c1ad1ee1e6b3171867e50b56895a07f80eeed19da6f0557b"
+    },
+    {
+      "path": "pages/learn/index.json",
+      "sha256": "42cc384d3ec39a3c0de04ec09f5e8d165ab3042fb0cd0462eb4cbd2c3e21c4a0"
+    },
+    {
+      "path": "pages/learn/index.wxml",
+      "sha256": "35726f7389a2096d591e973bac7a80554eeed6d24e783ec1b507b3e07bf5e450"
+    },
+    {
+      "path": "pages/learn/index.wxss",
+      "sha256": "b799683a3ea169563c873b83d5749d20f1eb994d479c4a891f7c3ee6cb1094c6"
+    },
+    {
+      "path": "pages/login/index.js",
+      "sha256": "b8971b45f1c75111e48a84125cadeea10d1dadeec95e57738877343d14f92162"
+    },
+    {
+      "path": "pages/login/index.json",
+      "sha256": "be574e92e89fe7aebb756c8accaa0662fd262d1b97e97c409e2d47dad7deca36"
+    },
+    {
+      "path": "pages/login/index.wxml",
+      "sha256": "c9a2efcf93e5011d6899b8a0c144fe3bcdeb6194be1b9823767ba4600a0d2c13"
+    },
+    {
+      "path": "pages/login/index.wxss",
+      "sha256": "fd0139ea9657e8cef6226499db8bf6ac79faaa03f9544f640e358080f294568c"
+    },
+    {
+      "path": "pages/records/index.js",
+      "sha256": "cba34bb6b4dadc2359cec162938796a13157397257714671ba2ceaa8dd803d7a"
+    },
+    {
+      "path": "pages/records/index.json",
+      "sha256": "488ba3e8d282210e52c4531371c5de591752270417363035eefa599d307e7c4b"
+    },
+    {
+      "path": "pages/records/index.wxml",
+      "sha256": "1ffe6c723c08a39a2e95db6296c8970ec7e38739ba719b520d6dc2ab459309a8"
+    },
+    {
+      "path": "pages/records/index.wxss",
+      "sha256": "5070ba201451af3f8939152646b467715dc59fa33917a6fc386ab8f79c473bdc"
+    },
+    {
+      "path": "pages/task/index.js",
+      "sha256": "16562a59a90282e7a422cec8cecb8187121f931c4cdd91dc872a966f6b3ffb2d"
+    },
+    {
+      "path": "pages/task/index.json",
+      "sha256": "914b8786008a79dd28a2c48319ce9277892518db926ebc82a53c3008f6de0150"
+    },
+    {
+      "path": "pages/task/index.wxml",
+      "sha256": "6baeb47dc57866ff3362bf176a1bcb3f67b4cf8261b6c8b40cf26e37ddd81eb1"
+    },
+    {
+      "path": "pages/task/index.wxss",
+      "sha256": "8948bca4ad7b7275fb82cf058ed3ab203c2b6e41e8c426f616d47893e833fdf9"
+    },
+    {
+      "path": "pages/tasks/index.js",
+      "sha256": "e47fc6d4b099cf319d41681bb0d2b1bf7c2cef47e94196987798b1e10dc35046"
+    },
+    {
+      "path": "pages/tasks/index.json",
+      "sha256": "02b01a26be7a5162c857b96117a9790c1d21e3e05059776552d33501f58af9ad"
+    },
+    {
+      "path": "pages/tasks/index.wxml",
+      "sha256": "59578f9754d2298127deb9671be4bfd672536f16ff4365502ed501fc488a2c4f"
+    },
+    {
+      "path": "pages/tasks/index.wxss",
+      "sha256": "09da0ae4e437d3d013738c16c3d17c7c9ae22c219304402d366df8576cbc326d"
+    },
+    {
+      "path": "project.config.json",
+      "sha256": "ce1f429bc03c3a235743b9cc1bddf217d5d41dee01ae4a0c8f77ddd7f9a973f4"
+    },
+    {
+      "path": "sitemap.json",
+      "sha256": "549f3524af2e86ba0ec6e11a5b979d327a5930c970ab3ba35da52fc9a5d692df"
+    }
+  ],
+  "uploadedWith": "official WeChat DevTools CLI",
+  "publicRelease": "NOT_COMPLETED"
+}

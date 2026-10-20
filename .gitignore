@@ -14,3 +14,7 @@ miniprogram/project.private.config.json
 .DS_Store
 *.tsbuildinfo
 tests/fixtures/generated/
+cloud/dist/
+miniprogram/release/
+miniprogram/artifacts/
+.cloudbase/

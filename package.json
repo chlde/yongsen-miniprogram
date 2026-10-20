@@ -1,21 +1,14 @@
 {
-  "name": "yongsen-training-mvp",
-  "version": "1.0.0",
+  "name": "yongsen-training",
+  "version": "2.0.0",
   "private": true,
-  "description": "永森油服培训 MVP：本地开发、样本与端到端验证",
   "type": "module",
+  "description": "永森油服：微信小程序直连腾讯云开发",
   "scripts": {
-    "setup": "node scripts/setup.mjs",
-    "dev": "node scripts/run-local.mjs",
-    "verify": "node scripts/verify.mjs",
-    "verify:mysql": "node scripts/verify-mysql.mjs",
-    "test:load": "node scripts/load-local.mjs",
-    "fixtures": "node scripts/create-fixtures.mjs",
-    "test:e2e": "playwright test",
-    "test:e2e:report": "playwright show-report"
+    "setup": "npm ci --prefix cloud && npm ci --prefix miniprogram",
+    "test": "npm test --prefix cloud && npm test --prefix miniprogram",
+    "build": "npm run build --prefix cloud && npm run build:production --prefix miniprogram",
+    "deploy:cloud": "npm run build --prefix cloud && node cloud/scripts/deploy.cjs"
   },
-  "devDependencies": {
-    "@playwright/test": "1.64.1",
-    "pdf-lib": "1.17.1"
-  }
+  "devDependencies": { "pdf-lib": "1.17.1" }
 }

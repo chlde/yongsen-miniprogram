@@ -1,0 +1,57 @@
+{
+  "checkedAt": "2026-10-20T16:06:51.026Z",
+  "functions": [
+    {
+      "name": "ys-training",
+      "runtime": "Nodejs20.19",
+      "status": "Active",
+      "memory": 512,
+      "timeout": 60,
+      "build": {
+        "version": "2.0.0",
+        "sourceHash": "503d55fe0e1bfe7e2f02fdb3d5e3afd8b838fba18222eac2f33c1e3a8ff72579"
+      },
+      "invokeRule": {
+        "invoke": "auth.loginType != 'ANONYMOUS' && auth != null"
+      }
+    },
+    {
+      "name": "ys-jobs",
+      "runtime": "Nodejs20.19",
+      "status": "Active",
+      "memory": 512,
+      "timeout": 180,
+      "build": {
+        "version": "2.0.0",
+        "sourceHash": "e4cc9e36e34c63b807e8c47e7e12bd03a92ad9fae8e6b2f7c204eb4eaf21980a"
+      },
+      "invokeRule": {
+        "invoke": false
+      }
+    },
+    {
+      "name": "ys-materials",
+      "runtime": "Nodejs20.19",
+      "status": "Active",
+      "memory": 2048,
+      "timeout": 180,
+      "build": {
+        "version": "2.0.0",
+        "sourceHash": "08fc3500aa8a37d5907c0a7da6b2c02708ee90b828e2ee55ad92e5cd93be5601"
+      },
+      "rendererReady": true,
+      "invokeRule": {
+        "invoke": false
+      }
+    }
+  ],
+  "releaseState": "developer",
+  "triggers": [
+    {
+      "TriggerName": "training-every-minute",
+      "Type": "timer",
+      "TriggerDesc": "{\"cron\":\"0 * * * * * *\"}",
+      "Enable": 1
+    }
+  ]
+}

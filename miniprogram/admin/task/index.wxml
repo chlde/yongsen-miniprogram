@@ -1,0 +1,22 @@
+<view class="screen">
+  <view wx:if="{{error}}" class="notice error">{{error}}</view>
+  <block wx:if="{{task}}">
+    <view class="eyebrow">培训任务</view><view class="title">{{task.title}}</view>
+    <view class="subtitle">{{task.description}}</view>
+    <view class="card"><view class="row"><text class="tag">{{task.status === 'DRAFT' ? '草稿' : task.status === 'PUBLISHING' ? '正在分配任务' : task.status === 'ACTIVE' ? '进行中' : '已取消'}}</text><text class="muted">{{task.assignedCount}} / {{task.personIds.length}} 人</text></view><view class="muted">截止 {{task.dueLabel}}</view></view>
+    <button wx:if="{{task.status === 'DRAFT'}}" id="publish-task" class="primary" loading="{{busy}}" disabled="{{busy}}" bindtap="publish">发布培训任务</button>
+    <view wx:if="{{task.status === 'ACTIVE'}}" class="actions"><button class="primary" loading="{{busy}}" disabled="{{busy}}" bindtap="remind">提醒未完成人员</button><button class="secondary" bindtap="exportRecords">导出培训记录</button></view>
+    <view class="hero" style="margin-top:24rpx"><view class="row"><view>已完成 {{completedCount}} 人</view><view>待确认 {{readyCount}} 人</view></view></view>
+    <view class="row section-heading"><view class="section-title">员工进展</view><button class="quiet" bindtap="load">刷新</button></view>
+    <view wx:if="{{syncError}}" class="notice">{{syncError}}</view>
+    <view wx:for="{{assignments}}" wx:key="id" class="card">
+      <view class="row"><view class="section-title">{{item.personName}}</view><text class="tag">{{item.stateLabel}}</text></view>
+      <view wx:for="{{item.materials}}" wx:for-item="material" wx:key="id"><view class="small">{{material.title}} · {{material.progress.requirementsMet ? '达到学习要求' : '学习中'}}</view><progress percent="{{material.progress.coverageRatio * 100}}" stroke-width="4" activeColor="#2563eb" /></view>
+      <view wx:if="{{item.status === 'COMPLETED'}}" class="muted">本人确认于 {{item.completedLabel}}</view>
+    </view>
+    <view class="section-title" style="margin-top:32rpx">通知记录</view>
+    <view wx:for="{{notifications}}" wx:key="id" class="card"><view>{{item.state === 'ACCEPTED' ? '微信已受理' : item.state === 'PENDING' ? '等待订阅授权或发送' : item.state === 'REJECTED' ? '微信拒绝发送' : item.state === 'UNKNOWN' ? '结果未知，需核对' : item.state}}</view><view class="muted">{{item.error}}</view></view>
+    <view class="footer-note">“微信已受理”表示发送接口成功，不等同于用户已收到或已阅读。</view>
+    <button wx:if="{{task.status !== 'CANCELED'}}" class="quiet" bindtap="cancel">取消此任务</button>
+  </block>
+</view>
